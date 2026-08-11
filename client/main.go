@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/status"
 
@@ -70,8 +71,10 @@ func authenticate(client pb.CalculatorClient) string {
 		var err error
 		if choice == 1 {
 			reply, err = client.Register(ctx, req)
-		} else {
+		} else if choice == 2 {
 			reply, err = client.Login(ctx, req)
+		} else {
+			err = status.Error(codes.Unauthenticated, "Invalid operation")
 		}
 		cancel()
 

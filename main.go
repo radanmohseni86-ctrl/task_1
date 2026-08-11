@@ -143,19 +143,25 @@ func (s *server) recordFailedLogin(ctx context.Context, key string, penaltyKey s
 		return
 	}
 
-	penalty, err := s.redis.Get(ctx, penaltyKey).Int()
-	if err != nil && err != redis.Nil {
-		fmt.Println("Error reading penalty:", err)
+	penaltyScript := redis.NewScript(`
+	local penalty = tonumber(redis.call('GET', KEYS[2]))
+	if not penalty then
+		penalty = 60
+	else
+		penalty = penalty * 2
+		if penalty > 1800 then
+			penalty = 1800
+		end
+	end
+	redis.call('SET', KEYS[2], penalty)
+	redis.call('EXPIRE', KEYS[1], penalty)
+	return penalty
+`)
+	_, err = penaltyScript.Run(ctx, s.redis, []string{key, penaltyKey}).Result()
+	if err != nil {
+		fmt.Println("Error running penalty script:", err)
 		return
 	}
-	if penalty == 0 {
-		penalty = 1
-	} else {
-		penalty *= 2
-	}
-
-	s.redis.Set(ctx, penaltyKey, penalty, 0)
-	s.redis.Expire(ctx, key, time.Duration(penalty)*time.Minute)
 }
 
 func main() {
