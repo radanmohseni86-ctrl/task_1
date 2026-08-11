@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Container 1: The PostgreSQL Database
+  postgres-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: radan1386
+      POSTGRES_DB: task_1_hamrah
+    ports:
+      - "5433:5432" # Optional: maps the DB to your Mac so you can inspect it via pgAdmin
+    volumes:
+      - pgdata:/var/lib/postgresql # Saves your data so it isn't lost when the container stops
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  # Container 3: Your Go Server
+  grpc-server:
+    build: . # Tells Compose to use the Dockerfile in this directory
+    ports:
+      - "8080:8080" # Maps the server to your Mac so the client can connect
+    depends_on:
+      - postgres-db # Ensures the database starts before the server
+      - redis
+
+volumes:
+  pgdata: # Defines the persistent volume for the database
