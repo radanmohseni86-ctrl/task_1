@@ -1,12 +1,25 @@
 syntax = "proto3";
 
-
+import "google/protobuf/timestamp.proto";
 option go_package = "./api";
 
 service Calculator {
   rpc Calc (CalcRequest) returns (CalcAnswer) {}
   rpc Register (AuthRequest) returns (AuthReply) {}
   rpc Login (AuthRequest) returns (AuthReply) {}
+}
+
+service Logger {
+  rpc StreamEvents (stream Event) returns (EventReply) {}
+}
+
+message Event {
+  string user = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}
+
+message EventReply {
+  bool received = 1;
 }
 
 message CalcRequest {

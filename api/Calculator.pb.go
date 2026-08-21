@@ -2,13 +2,14 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.21.12
-// source: api/hello.proto
+// source: api/Calculator.proto
 
 package api
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -20,6 +21,102 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
+
+type Event struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          string                 `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Event) Reset() {
+	*x = Event{}
+	mi := &file_api_Calculator_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Event) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Event) ProtoMessage() {}
+
+func (x *Event) ProtoReflect() protoreflect.Message {
+	mi := &file_api_Calculator_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Event.ProtoReflect.Descriptor instead.
+func (*Event) Descriptor() ([]byte, []int) {
+	return file_api_Calculator_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Event) GetUser() string {
+	if x != nil {
+		return x.User
+	}
+	return ""
+}
+
+func (x *Event) GetTimestamp() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Timestamp
+	}
+	return nil
+}
+
+type EventReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Received      bool                   `protobuf:"varint,1,opt,name=received,proto3" json:"received,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EventReply) Reset() {
+	*x = EventReply{}
+	mi := &file_api_Calculator_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EventReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EventReply) ProtoMessage() {}
+
+func (x *EventReply) ProtoReflect() protoreflect.Message {
+	mi := &file_api_Calculator_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EventReply.ProtoReflect.Descriptor instead.
+func (*EventReply) Descriptor() ([]byte, []int) {
+	return file_api_Calculator_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *EventReply) GetReceived() bool {
+	if x != nil {
+		return x.Received
+	}
+	return false
+}
 
 type CalcRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -33,7 +130,7 @@ type CalcRequest struct {
 
 func (x *CalcRequest) Reset() {
 	*x = CalcRequest{}
-	mi := &file_api_hello_proto_msgTypes[0]
+	mi := &file_api_Calculator_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +142,7 @@ func (x *CalcRequest) String() string {
 func (*CalcRequest) ProtoMessage() {}
 
 func (x *CalcRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_hello_proto_msgTypes[0]
+	mi := &file_api_Calculator_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +155,7 @@ func (x *CalcRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalcRequest.ProtoReflect.Descriptor instead.
 func (*CalcRequest) Descriptor() ([]byte, []int) {
-	return file_api_hello_proto_rawDescGZIP(), []int{0}
+	return file_api_Calculator_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CalcRequest) GetName() string {
@@ -98,7 +195,7 @@ type CalcAnswer struct {
 
 func (x *CalcAnswer) Reset() {
 	*x = CalcAnswer{}
-	mi := &file_api_hello_proto_msgTypes[1]
+	mi := &file_api_Calculator_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -110,7 +207,7 @@ func (x *CalcAnswer) String() string {
 func (*CalcAnswer) ProtoMessage() {}
 
 func (x *CalcAnswer) ProtoReflect() protoreflect.Message {
-	mi := &file_api_hello_proto_msgTypes[1]
+	mi := &file_api_Calculator_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -123,7 +220,7 @@ func (x *CalcAnswer) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalcAnswer.ProtoReflect.Descriptor instead.
 func (*CalcAnswer) Descriptor() ([]byte, []int) {
-	return file_api_hello_proto_rawDescGZIP(), []int{1}
+	return file_api_Calculator_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CalcAnswer) GetResult() float64 {
@@ -143,7 +240,7 @@ type AuthRequest struct {
 
 func (x *AuthRequest) Reset() {
 	*x = AuthRequest{}
-	mi := &file_api_hello_proto_msgTypes[2]
+	mi := &file_api_Calculator_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -155,7 +252,7 @@ func (x *AuthRequest) String() string {
 func (*AuthRequest) ProtoMessage() {}
 
 func (x *AuthRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_hello_proto_msgTypes[2]
+	mi := &file_api_Calculator_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -168,7 +265,7 @@ func (x *AuthRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AuthRequest.ProtoReflect.Descriptor instead.
 func (*AuthRequest) Descriptor() ([]byte, []int) {
-	return file_api_hello_proto_rawDescGZIP(), []int{2}
+	return file_api_Calculator_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *AuthRequest) GetUsername() string {
@@ -194,7 +291,7 @@ type AuthReply struct {
 
 func (x *AuthReply) Reset() {
 	*x = AuthReply{}
-	mi := &file_api_hello_proto_msgTypes[3]
+	mi := &file_api_Calculator_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -206,7 +303,7 @@ func (x *AuthReply) String() string {
 func (*AuthReply) ProtoMessage() {}
 
 func (x *AuthReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_hello_proto_msgTypes[3]
+	mi := &file_api_Calculator_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -219,7 +316,7 @@ func (x *AuthReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AuthReply.ProtoReflect.Descriptor instead.
 func (*AuthReply) Descriptor() ([]byte, []int) {
-	return file_api_hello_proto_rawDescGZIP(), []int{3}
+	return file_api_Calculator_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *AuthReply) GetMessage() string {
@@ -229,11 +326,17 @@ func (x *AuthReply) GetMessage() string {
 	return ""
 }
 
-var File_api_hello_proto protoreflect.FileDescriptor
+var File_api_Calculator_proto protoreflect.FileDescriptor
 
-const file_api_hello_proto_rawDesc = "" +
+const file_api_Calculator_proto_rawDesc = "" +
 	"\n" +
-	"\x0fapi/hello.proto\"g\n" +
+	"\x14api/Calculator.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"U\n" +
+	"\x05Event\x12\x12\n" +
+	"\x04user\x18\x01 \x01(\tR\x04user\x128\n" +
+	"\ttimestamp\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\"(\n" +
+	"\n" +
+	"EventReply\x12\x1a\n" +
+	"\breceived\x18\x01 \x01(\bR\breceived\"g\n" +
 	"\vCalcRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
 	"\x04num1\x18\x02 \x01(\x01R\x04num1\x12\x12\n" +
@@ -253,61 +356,69 @@ const file_api_hello_proto_rawDesc = "" +
 	"\bRegister\x12\f.AuthRequest\x1a\n" +
 	".AuthReply\"\x00\x12#\n" +
 	"\x05Login\x12\f.AuthRequest\x1a\n" +
-	".AuthReply\"\x00B\aZ\x05./apib\x06proto3"
+	".AuthReply\"\x0021\n" +
+	"\x06Logger\x12'\n" +
+	"\fStreamEvents\x12\x06.Event\x1a\v.EventReply\"\x00(\x01B\aZ\x05./apib\x06proto3"
 
 var (
-	file_api_hello_proto_rawDescOnce sync.Once
-	file_api_hello_proto_rawDescData []byte
+	file_api_Calculator_proto_rawDescOnce sync.Once
+	file_api_Calculator_proto_rawDescData []byte
 )
 
-func file_api_hello_proto_rawDescGZIP() []byte {
-	file_api_hello_proto_rawDescOnce.Do(func() {
-		file_api_hello_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_hello_proto_rawDesc), len(file_api_hello_proto_rawDesc)))
+func file_api_Calculator_proto_rawDescGZIP() []byte {
+	file_api_Calculator_proto_rawDescOnce.Do(func() {
+		file_api_Calculator_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_Calculator_proto_rawDesc), len(file_api_Calculator_proto_rawDesc)))
 	})
-	return file_api_hello_proto_rawDescData
+	return file_api_Calculator_proto_rawDescData
 }
 
-var file_api_hello_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_api_hello_proto_goTypes = []any{
-	(*CalcRequest)(nil), // 0: CalcRequest
-	(*CalcAnswer)(nil),  // 1: CalcAnswer
-	(*AuthRequest)(nil), // 2: AuthRequest
-	(*AuthReply)(nil),   // 3: AuthReply
+var file_api_Calculator_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_api_Calculator_proto_goTypes = []any{
+	(*Event)(nil),                 // 0: Event
+	(*EventReply)(nil),            // 1: EventReply
+	(*CalcRequest)(nil),           // 2: CalcRequest
+	(*CalcAnswer)(nil),            // 3: CalcAnswer
+	(*AuthRequest)(nil),           // 4: AuthRequest
+	(*AuthReply)(nil),             // 5: AuthReply
+	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
 }
-var file_api_hello_proto_depIdxs = []int32{
-	0, // 0: Calculator.Calc:input_type -> CalcRequest
-	2, // 1: Calculator.Register:input_type -> AuthRequest
-	2, // 2: Calculator.Login:input_type -> AuthRequest
-	1, // 3: Calculator.Calc:output_type -> CalcAnswer
-	3, // 4: Calculator.Register:output_type -> AuthReply
-	3, // 5: Calculator.Login:output_type -> AuthReply
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+var file_api_Calculator_proto_depIdxs = []int32{
+	6, // 0: Event.timestamp:type_name -> google.protobuf.Timestamp
+	2, // 1: Calculator.Calc:input_type -> CalcRequest
+	4, // 2: Calculator.Register:input_type -> AuthRequest
+	4, // 3: Calculator.Login:input_type -> AuthRequest
+	0, // 4: Logger.StreamEvents:input_type -> Event
+	3, // 5: Calculator.Calc:output_type -> CalcAnswer
+	5, // 6: Calculator.Register:output_type -> AuthReply
+	5, // 7: Calculator.Login:output_type -> AuthReply
+	1, // 8: Logger.StreamEvents:output_type -> EventReply
+	5, // [5:9] is the sub-list for method output_type
+	1, // [1:5] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_api_hello_proto_init() }
-func file_api_hello_proto_init() {
-	if File_api_hello_proto != nil {
+func init() { file_api_Calculator_proto_init() }
+func file_api_Calculator_proto_init() {
+	if File_api_Calculator_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_hello_proto_rawDesc), len(file_api_hello_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_Calculator_proto_rawDesc), len(file_api_Calculator_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   2,
 		},
-		GoTypes:           file_api_hello_proto_goTypes,
-		DependencyIndexes: file_api_hello_proto_depIdxs,
-		MessageInfos:      file_api_hello_proto_msgTypes,
+		GoTypes:           file_api_Calculator_proto_goTypes,
+		DependencyIndexes: file_api_Calculator_proto_depIdxs,
+		MessageInfos:      file_api_Calculator_proto_msgTypes,
 	}.Build()
-	File_api_hello_proto = out.File
-	file_api_hello_proto_goTypes = nil
-	file_api_hello_proto_depIdxs = nil
+	File_api_Calculator_proto = out.File
+	file_api_Calculator_proto_goTypes = nil
+	file_api_Calculator_proto_depIdxs = nil
 }

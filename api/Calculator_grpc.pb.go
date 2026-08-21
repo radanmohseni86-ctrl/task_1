@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v3.21.12
-// source: api/hello.proto
+// source: api/Calculator.proto
 
 package api
 
@@ -193,5 +193,100 @@ var Calculator_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/hello.proto",
+	Metadata: "api/Calculator.proto",
+}
+
+const (
+	Logger_StreamEvents_FullMethodName = "/Logger/StreamEvents"
+)
+
+// LoggerClient is the client API for Logger service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type LoggerClient interface {
+	StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[Event, EventReply], error)
+}
+
+type loggerClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewLoggerClient(cc grpc.ClientConnInterface) LoggerClient {
+	return &loggerClient{cc}
+}
+
+func (c *loggerClient) StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[Event, EventReply], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &Logger_ServiceDesc.Streams[0], Logger_StreamEvents_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[Event, EventReply]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Logger_StreamEventsClient = grpc.ClientStreamingClient[Event, EventReply]
+
+// LoggerServer is the server API for Logger service.
+// All implementations must embed UnimplementedLoggerServer
+// for forward compatibility.
+type LoggerServer interface {
+	StreamEvents(grpc.ClientStreamingServer[Event, EventReply]) error
+	mustEmbedUnimplementedLoggerServer()
+}
+
+// UnimplementedLoggerServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedLoggerServer struct{}
+
+func (UnimplementedLoggerServer) StreamEvents(grpc.ClientStreamingServer[Event, EventReply]) error {
+	return status.Error(codes.Unimplemented, "method StreamEvents not implemented")
+}
+func (UnimplementedLoggerServer) mustEmbedUnimplementedLoggerServer() {}
+func (UnimplementedLoggerServer) testEmbeddedByValue()                {}
+
+// UnsafeLoggerServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to LoggerServer will
+// result in compilation errors.
+type UnsafeLoggerServer interface {
+	mustEmbedUnimplementedLoggerServer()
+}
+
+func RegisterLoggerServer(s grpc.ServiceRegistrar, srv LoggerServer) {
+	// If the following call panics, it indicates UnimplementedLoggerServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&Logger_ServiceDesc, srv)
+}
+
+func _Logger_StreamEvents_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(LoggerServer).StreamEvents(&grpc.GenericServerStream[Event, EventReply]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Logger_StreamEventsServer = grpc.ClientStreamingServer[Event, EventReply]
+
+// Logger_ServiceDesc is the grpc.ServiceDesc for Logger service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var Logger_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "Logger",
+	HandlerType: (*LoggerServer)(nil),
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "StreamEvents",
+			Handler:       _Logger_StreamEvents_Handler,
+			ClientStreams: true,
+		},
+	},
+	Metadata: "api/Calculator.proto",
 }

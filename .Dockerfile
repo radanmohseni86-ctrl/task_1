@@ -18,7 +18,7 @@ COPY . .
 
 # Build the Go app.
 # CGO_ENABLED=0 ensures a statically linked binary (vital for Alpine/Scratch).
-RUN CGO_ENABLED=0 GOOS=linux go build -o main .
+RUN CGO_ENABLED=0 GOOS=linux go build -o main ./cmd/server
 
 # ==========================================
 # Stage 2: Create the minimal runtime image
